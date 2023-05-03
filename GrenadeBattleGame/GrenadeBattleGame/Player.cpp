@@ -4,8 +4,7 @@
 
 enum class PhysicsType
 {
-		  FORWARD_EULER
-		, BACKWARD_EULER
+		  BACKWARD_EULER
 		, POSITION_VERLET
 };
 Player::Player()
