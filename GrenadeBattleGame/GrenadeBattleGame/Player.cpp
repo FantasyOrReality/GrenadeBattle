@@ -13,8 +13,20 @@ Player::Player()
 	, twoFramesOldPos(100, 300)
 	, velocity(0,0)
 	, acceleration(0,0)
+	, playerSprite()
+	, playerJumpSound()
+	, playerDeathSound()
+	, playerIDstr()
+	, playerIDint()
+	//, playerLevel()
+	, isGrounded()
+	, isAlive()
+	, hitboxOffset()
+	, hitboxScale()
+	, aimTarget()
+	//, playerGrenade()
 {
-	sprite.setTexture(AssetManager::RequestTexture(""));
+	sprite.setTexture(AssetManager::RequestTexture("LukuSlimeBaseDesign-1.png")); //Placeholder Player Texture
 
 	collisionType = CollisionType::CIRCLE;
 
@@ -99,7 +111,7 @@ void Player::HandleCollision(OnScreenActor& other)
 void Player::PlayerMovement()
 {
 	const float ACCEL = 5000;
-	const float GRAVITY = 1000;
+	const float GRAVITY = 0; //Should be 1000, but there is no ground yet
 
 
 	acceleration.x = 0;
