@@ -37,6 +37,7 @@ Player::Player()
 
 void Player::Update(sf::Time frameTime)
 {
+	//Practical Task - Physics Alternatives
 	const float DRAG_MULT = 10.0f;
 	const PhysicsType physics = PhysicsType::BACKWARDS_EULER;
 
@@ -44,7 +45,7 @@ void Player::Update(sf::Time frameTime)
 	{
 	case PhysicsType::BACKWARDS_EULER:
 	{
-		//IMPLICIT EULER (BACKWARD EULER)
+		//IMPLICIT EULER (BACKWARD EULER) - used for accuracy
 
 		//Update acceleration
 		PlayerMovement();
@@ -63,7 +64,7 @@ void Player::Update(sf::Time frameTime)
 
 	case PhysicsType::SYMPLECTIC_EULER:
 	{
-		//SEMI-IMPLICIT EULER (SYMPLECTIC EULER)
+		//SEMI-IMPLICIT EULER (SYMPLECTIC EULER) - Used for ease of implementation
 		velocity += acceleration * frameTime.asSeconds();
 
 		//drag
@@ -71,7 +72,7 @@ void Player::Update(sf::Time frameTime)
 
 		SetPosition(GetPosition() + velocity * frameTime.asSeconds());
 
-		//Update acceleration
+		//Move the player
 		PlayerMovement();
 	}
 	break;
@@ -80,6 +81,7 @@ void Player::Update(sf::Time frameTime)
 
 void Player::HandleCollision(OnScreenActor& other)
 {
+	//Practical Task - Physics Alternatives
 	sf::Vector2f depth = CalculateCollisionDepth(other);
 	sf::Vector2f newPosition = GetPosition();
 	const float JUMPSPEED = 1000;
@@ -110,6 +112,7 @@ void Player::HandleCollision(OnScreenActor& other)
 
 void Player::PlayerMovement()
 {
+	//Practical Task - Physics Alternatives
 	const float ACCEL = 5000;
 	const float GRAVITY = 0; //Should be 1000, but there is no ground yet
 
