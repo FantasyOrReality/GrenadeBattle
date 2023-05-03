@@ -2,6 +2,7 @@
 
 //Default libraries
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 enum class CollisionType
 {
