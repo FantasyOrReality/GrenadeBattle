@@ -18,7 +18,7 @@ Player::Player()
 	, playerDeathSound()
 	, playerIDstr()
 	, playerIDint()
-	//, playerLevel()
+	, playerLevel()
 	, isGrounded()
 	, isAlive()
 	, hitboxOffset()
@@ -26,7 +26,7 @@ Player::Player()
 	, aimTarget()
 	//, playerGrenade()
 {
-	sprite.setTexture(AssetManager::RequestTexture("LukuSlimeBaseDesign-1.png")); //Placeholder Player Texture
+	sprite.setTexture(AssetManager::RequestTexture("player_" + playerIDstr + "_stand"));
 
 	collisionType = CollisionType::CIRCLE;
 
@@ -114,19 +114,50 @@ void Player::PlayerMovement()
 {
 	//Practical Task - Physics Alternatives
 	const float ACCEL = 5000;
-	const float GRAVITY = 0; //Should be 1000, but there is no ground yet
+	const float GRAVITY = 1000; 
 
 
 	acceleration.x = 0;
 	acceleration.y = GRAVITY;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (playerIDint == 1)
 	{
-		acceleration.x = -ACCEL;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		acceleration.x = ACCEL;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			acceleration.x = -ACCEL;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			acceleration.x = ACCEL;
 
+		}
 	}
+	if (playerIDint == 2)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			acceleration.x = -ACCEL;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			acceleration.x = ACCEL;
+
+		}
+	}
+
 }
+
+void Player::SetPlayerID(std::string newPlayerIDstr)
+{
+	playerIDstr = newPlayerIDstr;
+	sprite.setTexture(AssetManager::RequestTexture("player_"+ playerIDstr + "_stand"));
+
+}
+
+void Player::SetPlayerID(int newPlayerIDint)
+{
+	playerIDint = newPlayerIDint;
+	
+
+}
+
+

@@ -5,8 +5,9 @@
 //Classes
 #include "OnScreenActor.h"
 
+//Forward declarations
 //class Grenade;
-//class LevelScreen
+class LevelScreen;
 
 class Player :
     public OnScreenActor
@@ -18,17 +19,16 @@ public:
 
     void HandleCollision(OnScreenActor& other) override;
 
-    void GetCurrentLevel(/*LevelScreen* newPlayerLevel*/ );
 
-    void PlayerMovement();
-    void PlayerAutoJump();
-    void PlayerDeath();
-    void SetGrounded(bool newIsGrounded);
+
+    void SetPlayerID(std::string newPlayerIDstr);
+    void SetPlayerID(int newPlayerIDint);
 
 private:
+    void PlayerMovement();
 
-    void AimGrenade(sf::Vector2f newAimTarget);
-    void FireGrenade(sf::Vector2f newAimTarget);
+    //void AimGrenade(sf::Vector2f newAimTarget);
+    //void FireGrenade(sf::Vector2f newAimTarget);
 
 
     sf::Vector2f twoFramesOldPos;
@@ -40,7 +40,7 @@ private:
     sf::Sound playerDeathSound;
     std::string playerIDstr;
     int playerIDint;
-    //LevelScreen* playerLevel;
+    LevelScreen* playerLevel;
     bool isGrounded;
     bool isAlive;
     sf::Vector2f hitboxOffset;
