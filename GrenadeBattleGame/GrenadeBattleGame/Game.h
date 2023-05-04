@@ -3,9 +3,9 @@
 //Default libraries
 #include <SFML/Graphics.hpp>
 
+
 //Forward declarations
-//TODO: Include the screen class
-class Player; //temporary player declaration
+class Screen; 
 
 class Game
 {
@@ -27,10 +27,8 @@ private:
 	sf::RenderWindow window;
 	sf::Clock gameClock;
 
-	Player* player;
-
-	//Need: Screen class
-	//Screen* currentScreen;
+	
+	Screen* currentScreen;
 
 };
 

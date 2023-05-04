@@ -1,25 +1,20 @@
 //Classes
 #include "Game.h"
-#include "Player.h" //Temporary player include
-//TODO: Include the screen class
-//TODO: Include the "Level screen" class | Name may change
+#include "Screen.h"
+#include "LevelScreen.h"
 
 
 Game::Game()
 	//Initiallizer list
 	: window(sf::VideoMode::getDesktopMode(), "Grenade Battle", sf::Style::Titlebar | sf::Style::Close)
 	, gameClock()
-	//, currentScreen(nullptr)
-	, player(nullptr) //Temporary player assignment
+	, currentScreen(nullptr)
+	
 {
 	//Window setup
 	window.setMouseCursorVisible(false);
 
-	//TODO: Setup screens
-	//currentScreen = new LevelScreen(this);
-
-	//temporary player setup
-	player = new Player();
+	currentScreen = new LevelScreen(this);
 }
 
 void Game::RunGameLoop()
@@ -54,17 +49,10 @@ void Game::Update()
 	sf::Time frameTime = gameClock.restart();
 
 	//Update current screen
-	//if (currentScreen != nullptr)
-	//{
-
-		//currentScreen->Update(frameTime);
-
-	//}
-	//temporary player update
-	if (player != nullptr)
+	if (currentScreen != nullptr)
 	{
 
-		player->Update(frameTime);
+		currentScreen->Update(frameTime);
 
 	}
 
@@ -76,17 +64,11 @@ void Game::Draw()
 	window.clear();
 
 	//Draw current screen
-	//if (currentScreen != nullptr)
-	//{
-
-		//currentScreen->Draw(window);
-
-	//}
-
-	//temporary player draw
-	if (player != nullptr)
+	if (currentScreen != nullptr)
 	{
-		player->Draw(window);
+
+		currentScreen->Draw(window);
+
 	}
 
 	window.display();
