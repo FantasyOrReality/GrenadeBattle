@@ -13,7 +13,7 @@ class Player :
     public OnScreenActor
 {
 public:
-    Player();
+    Player(std::string newPlayerIDstr, int newPlayerIDint);
 
     void Update(sf::Time frameTime) override;
 

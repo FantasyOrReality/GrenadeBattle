@@ -8,7 +8,7 @@ enum class PhysicsType
 		  BACKWARDS_EULER //Implicit Euler
 		, SYMPLECTIC_EULER //Semi-Implicit Euler
 };
-Player::Player()
+Player::Player(std::string newPlayerIDstr, int newPlayerIDint)
 	: OnScreenActor()
 	, twoFramesOldPos(100, 300)
 	, velocity(0,0)
@@ -16,8 +16,8 @@ Player::Player()
 	, playerSprite()
 	, playerJumpSound()
 	, playerDeathSound()
-	, playerIDstr("0")
-	, playerIDint(0)
+	, playerIDstr(newPlayerIDstr)
+	, playerIDint(newPlayerIDint)
 	, playerLevel()
 	, isGrounded(true)
 	, isAlive(true)

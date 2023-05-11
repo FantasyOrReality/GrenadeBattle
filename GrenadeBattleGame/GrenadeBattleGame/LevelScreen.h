@@ -8,13 +8,13 @@
 #include "Screen.h" //Parent class
 //Include all things in the level
 #include "OnScreenActor.h"
-#include "Player.h"
 
 //TODO:Include grenade class
 
 //Forward declarations
 class Game;
 class Platform;
+class Player;
 
 class LevelScreen :
     public Screen

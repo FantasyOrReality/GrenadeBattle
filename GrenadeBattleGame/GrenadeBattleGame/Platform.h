@@ -17,7 +17,7 @@ public:
 
 
 private:
-
+	LevelScreen* currentLevel;
 	
 
 	

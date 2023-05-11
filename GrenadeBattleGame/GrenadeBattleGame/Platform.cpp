@@ -3,6 +3,7 @@
 
 Platform::Platform(sf::Vector2f newPosition)
 	: OnScreenActor()
+	, currentLevel()
 {
 
 	sprite.setTexture(AssetManager::RequestTexture("tile"));
