@@ -7,10 +7,10 @@
 
 OnScreenActor::OnScreenActor()
 	: sprite()
-	, position(0, 0)
+	, position(0,0)
 	, colliding(false)
-	, collisionOffset(0, 0)
-	, collisionScale(1, 1)
+	, collisionOffset()
+	, collisionScale()
 	, collisionType(CollisionType::AABB)
 	, alive(true)
 {

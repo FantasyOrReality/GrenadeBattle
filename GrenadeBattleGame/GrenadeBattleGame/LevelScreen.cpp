@@ -10,6 +10,7 @@
 
 
 
+
 LevelScreen::LevelScreen(Game* newGamePtr)
 	: Screen(newGamePtr)
 	, levelIDstr()
@@ -25,15 +26,16 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 	, gameMusic()
 	, currentLevel(1)
 {
-	player1->SetPosition(300.0f, 700.0f);
-	player2->SetPosition(700.0f, 700.0f);
+	player1->SetPlayerID("1"); //set the player ID to use when setting textures
+	player2->SetPlayerID("2"); //set the player ID to use when setting textures
 
 	player1->SetPlayerID(1); //set the player ID to use when setting controls
 	player2->SetPlayerID(2); //set the player ID to use when setting controls
 
-	player1->SetPlayerID("1"); //set the player ID to use when setting textures
-	player2->SetPlayerID("2"); //set the player ID to use when setting textures
 	
+
+	player1->SetPosition(300.0f, 700.0f);
+	player2->SetPosition(700.0f, 700.0f);
 
 	platformTiles.push_back(new Platform(sf::Vector2f(300.0f, 900.0f)));
 

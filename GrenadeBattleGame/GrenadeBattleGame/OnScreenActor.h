@@ -24,7 +24,7 @@ public:
 
 	//Public Setters
 	virtual void SetPosition(sf::Vector2f newPosition);
-	void SetPosition(float newX, float newY);
+	virtual void SetPosition(float newX, float newY);
 
 	bool CheckCollision(OnScreenActor other);
 	void SetColliding(bool newColliding);

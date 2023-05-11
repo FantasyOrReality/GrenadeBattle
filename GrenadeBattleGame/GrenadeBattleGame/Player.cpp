@@ -16,14 +16,14 @@ Player::Player()
 	, playerSprite()
 	, playerJumpSound()
 	, playerDeathSound()
-	, playerIDstr()
-	, playerIDint()
+	, playerIDstr("0")
+	, playerIDint(0)
 	, playerLevel()
-	, isGrounded()
-	, isAlive()
-	, hitboxOffset()
-	, hitboxScale()
-	, aimTarget()
+	, isGrounded(true)
+	, isAlive(true)
+	, hitboxOffset(0,0)
+	, hitboxScale(1,1)
+	, aimTarget(0,0)
 	//, playerGrenade()
 {
 	sprite.setTexture(AssetManager::RequestTexture("player_" + playerIDstr + "_stand"));
@@ -156,8 +156,6 @@ void Player::SetPlayerID(std::string newPlayerIDstr)
 void Player::SetPlayerID(int newPlayerIDint)
 {
 	playerIDint = newPlayerIDint;
-	
-
 }
 
 

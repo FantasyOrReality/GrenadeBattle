@@ -3,6 +3,7 @@
 //Default libraries
 #include <SFML/Graphics.hpp>
 
+#include "LevelScreen.h"
 
 //Forward declarations
 class Screen; 
