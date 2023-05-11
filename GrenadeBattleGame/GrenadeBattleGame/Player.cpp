@@ -84,7 +84,7 @@ void Player::HandleCollision(OnScreenActor& other)
 	//Practical Task - Physics Alternatives
 	sf::Vector2f depth = CalculateCollisionDepth(other);
 	sf::Vector2f newPosition = GetPosition();
-	const float JUMPSPEED = 1000;
+	const float JUMPSPEED = 0; //No jump required right now
 
 	if (abs(depth.x) < abs(depth.y))
 	{
@@ -103,6 +103,7 @@ void Player::HandleCollision(OnScreenActor& other)
 		//Collision from above
 		if (depth.y < 0)
 		{
+			
 			velocity.y = -JUMPSPEED;
 		}
 	}

@@ -36,8 +36,6 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 	player1->SetPlayerID(1); //set the player ID to use when setting controls
 	player2->SetPlayerID(2); //set the player ID to use when setting controls
 
-	
-
 	player1->SetPosition(300.0f, 700.0f);
 	player2->SetPosition(700.0f, 700.0f);
 
