@@ -29,6 +29,8 @@ void OnScreenActor::Draw(sf::RenderTarget& target)
 		return;
 	}
 
+	//Practical Task - Collision Geometry
+
 	target.draw(sprite);
 
 	bool drawCollider = true;
@@ -120,6 +122,8 @@ bool OnScreenActor::CheckCollision(OnScreenActor other)
 		return false;
 	}
 
+	//Practical Task - Collision Geometry
+
 	switch (collisionType)
 	{
 	case CollisionType::AABB:
@@ -193,6 +197,7 @@ void OnScreenActor::SetColliding(bool newColliding)
 
 sf::Vector2f OnScreenActor::CalculateCollisionDepth(OnScreenActor other)
 {
+	// Practical Task - Collision Geometry
 	sf::FloatRect thisAABB = GetAABB();
 	sf::FloatRect otherAABB = other.GetAABB();
 

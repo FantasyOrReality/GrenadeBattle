@@ -6,6 +6,8 @@
 
 enum class CollisionType
 {
+	//Practical Task - Collision Geometry
+
 	CIRCLE,
 	AABB
 

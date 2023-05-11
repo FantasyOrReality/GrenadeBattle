@@ -110,11 +110,6 @@ void LevelScreen::Update(sf::Time frameTime)
 
 		//door.SetColliding(false);
 
-		
-
-		
-		
-
 		for (int i = 0; i < platformTiles.size(); i++)
 		{
 			if (platformTiles[i]->CheckCollision(*player1))
