@@ -3,7 +3,7 @@
 
 //Classes
 #include "OnScreenActor.h"
-//TODO: Include the VectorHelper
+#include "VectorHelper.h"
 
 OnScreenActor::OnScreenActor()
 	: sprite()
@@ -136,11 +136,9 @@ bool OnScreenActor::CheckCollision(OnScreenActor other)
 			nearestPointToCircle.x = fmaxf(thisAABB.left, fminf(nearestPointToCircle.x, thisAABB.left + thisAABB.width));
 			nearestPointToCircle.y = fmaxf(thisAABB.top, fminf(nearestPointToCircle.y, thisAABB.top + thisAABB.height));
 			sf::Vector2f displacement = nearestPointToCircle - other.GetCollisionCentre();
-			//Need: VectorHelper
-			//float squareDistance = VectorHelper::SquareMagnitude(displacement);
+			float squareDistance = VectorHelper::SquareMagnitude(displacement);
 			float circleRadius = other.GetCircleColliderRadius();
-			//Need: VectorHelper
-			return /*squareDistance <= circleRadius * circleRadius*/0.0f;
+			return squareDistance <= circleRadius * circleRadius;
 		}
 	}
 	break;
@@ -153,14 +151,12 @@ bool OnScreenActor::CheckCollision(OnScreenActor other)
 			sf::Vector2f displacement = GetCollisionCentre() - other.GetCollisionCentre();
 
 			//Get the magnitude of that vector, which is how far apart the circle centres
-			// Need: VectorHelper
-			//float squareDistance = VectorHelper::SquareMagnitude(displacement);
+			float squareDistance = VectorHelper::SquareMagnitude(displacement);
 
 			//Compare that to the combined radii of the two circles
 			float combinedRadii = GetCircleColliderRadius() + other.GetCircleColliderRadius();
 
-			//Need: VectorHelper
-			return /*squareDistance <= combinedRadii * combinedRadii */0.0f;
+			return squareDistance <= combinedRadii * combinedRadii;
 		}
 		else
 		{
@@ -171,11 +167,9 @@ bool OnScreenActor::CheckCollision(OnScreenActor other)
 			nearestPointToCircle.y = fmaxf(otherAABB.top, fminf(nearestPointToCircle.y, otherAABB.top + otherAABB.height));
 
 			sf::Vector2f displacement = nearestPointToCircle - GetCollisionCentre();
-			//Need: VectorHelper
-			//float squareDistance = VectorHelper::SquareMagnitude(displacement);
+			float squareDistance = VectorHelper::SquareMagnitude(displacement);
 			float circleRadius = GetCircleColliderRadius();
-			//Need: VectorHelper
-			return /*squareDistance <= circleRadius * circleRadius*/0.0f;
+			return squareDistance <= circleRadius * circleRadius;
 
 		}
 	}
