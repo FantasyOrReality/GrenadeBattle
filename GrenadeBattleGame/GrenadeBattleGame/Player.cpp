@@ -24,6 +24,7 @@ Player::Player(std::string newPlayerIDstr, int newPlayerIDint)
 	, hitboxOffset(0,0)
 	, hitboxScale(1,1)
 	, aimTarget(0,0)
+	, pips()
 	//, playerGrenade()
 {
 	sprite.setTexture(AssetManager::RequestTexture("player_" + playerIDstr + "_stand"));
@@ -33,10 +34,30 @@ Player::Player(std::string newPlayerIDstr, int newPlayerIDint)
 	collisionOffset = sf::Vector2f(0.0f, 0.0f);
 	collisionScale = sf::Vector2f(1.0f, 1.0f);
 
+	//Add sprites to pips
+	const int NUM_PIPS = 5;
+
+	for (int i = 0; i < NUM_PIPS; ++i)
+	{
+		pips.push_back(sf::Sprite());
+		pips[i].setTexture(AssetManager::RequestTexture("pip"));
+	}
 }
 
 void Player::Update(sf::Time frameTime)
 {
+	//Practical Task - Gravity Prediction
+	OnScreenActor::Update(frameTime);
+
+	float pipTime = 0;
+	float pipTimeStep = 0.1f;
+
+	for (int i = 0; i < pips.size(); ++i)
+	{
+		pips[i].setPosition(GetPipPosition(pipTime));
+		pipTime += pipTimeStep;
+	}
+
 	//Practical Task - Physics Alternatives
 	const float DRAG_MULT = 10.0f;
 	const PhysicsType physics = PhysicsType::BACKWARDS_EULER;
@@ -76,6 +97,17 @@ void Player::Update(sf::Time frameTime)
 		PlayerMovement();
 	}
 	break;
+	}
+}
+
+void Player::Draw(sf::RenderTarget& target)
+{
+	OnScreenActor::Draw(target);
+
+	//Draw pips
+	for (int i = 0; i < pips.size(); ++i)
+	{
+		target.draw(pips[i]);
 	}
 }
 
@@ -145,6 +177,18 @@ void Player::PlayerMovement()
 		}
 	}
 
+}
+
+sf::Vector2f Player::GetPipPosition(float pipTime)
+{
+	//Practical Task - Gravity Prediction
+	sf::Vector2f pipPosition;
+
+	pipPosition = sf::Vector2f(0.0f, 1000.0f)*pipTime*pipTime
+		+ sf::Vector2f(500.0f, -1000.0f)*pipTime
+		+ sf::Vector2f(500.0f ,500.0f);
+
+	return pipPosition;
 }
 
 void Player::SetPlayerID(std::string newPlayerIDstr)
