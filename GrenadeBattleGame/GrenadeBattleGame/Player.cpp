@@ -183,10 +183,15 @@ sf::Vector2f Player::GetPipPosition(float pipTime)
 {
 	//Practical Task - Gravity Prediction
 	sf::Vector2f pipPosition;
+	float Gravity = 1000.0f;
 
 	pipPosition = sf::Vector2f(0.0f, 1000.0f)*pipTime*pipTime
 		+ sf::Vector2f(500.0f, -1000.0f)*pipTime
 		+ sf::Vector2f(500.0f ,500.0f);
+
+	pipPosition = sf::Vector2f(0.0f, Gravity / 2.0f) * pipTime * pipTime
+		+ sf::Vector2f(/*pipVelocity.x, pipVelocity.y */) * pipTime
+		+ sf::Vector2f(playerSprite.getPosition().x, playerSprite.getPosition().y);
 
 	return pipPosition;
 }
