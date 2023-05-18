@@ -13,6 +13,7 @@ OnScreenActor::OnScreenActor()
 	, collisionScale()
 	, collisionType(CollisionType::AABB)
 	, alive(true)
+	, gravity(1000.0f)
 {
 	
 }

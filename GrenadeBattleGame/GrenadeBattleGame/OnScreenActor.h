@@ -46,6 +46,8 @@ protected:
 	CollisionType collisionType;
 
 	bool alive;
+	float gravity;
+
 
 private:
 

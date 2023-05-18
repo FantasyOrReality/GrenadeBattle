@@ -49,6 +49,8 @@ private:
     sf::Vector2f aimTarget;
     //Grenade* playerGrenade;
     std::vector<sf::Sprite> pips;
+
+    sf::Vector2f fireVelocity;
     
 };
 
