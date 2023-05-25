@@ -1,6 +1,9 @@
 //Classes
 #include "Player.h"
 #include "AssetManager.h"
+#include "LevelScreen.h"
+#include "Screen.h"
+#include "Grenade.h"
 
 //Practical Task - Physics Alternatives
 enum class PhysicsType
@@ -8,7 +11,7 @@ enum class PhysicsType
 		  BACKWARDS_EULER //Implicit Euler
 		, SYMPLECTIC_EULER //Semi-Implicit Euler
 };
-Player::Player(std::string newPlayerIDstr, int newPlayerIDint)
+Player::Player(std::string newPlayerIDstr, int newPlayerIDint, LevelScreen* newCurrentLevel)
 	: OnScreenActor()
 	, twoFramesOldPos(100, 300)
 	, velocity(0,0)
@@ -18,14 +21,14 @@ Player::Player(std::string newPlayerIDstr, int newPlayerIDint)
 	, playerDeathSound()
 	, playerIDstr(newPlayerIDstr)
 	, playerIDint(newPlayerIDint)
-	, playerLevel()
+	, playerLevel(newCurrentLevel)
 	, isGrounded(true)
 	, isAlive(true)
 	, hitboxOffset(0,0)
 	, hitboxScale(1,1)
 	, aimTarget(0,0)
 	, pips()
-	//, playerGrenade()
+	, playerGrenade(nullptr)
 	, fireVelocity()
 {
 	sprite.setTexture(AssetManager::RequestTexture("player_" + playerIDstr + "_stand"));
@@ -59,14 +62,15 @@ void Player::Update(sf::Time frameTime)
 		pipTime += pipTimeStep;
 	}
 
-	//Get a direction for firing the grenade
-	//Possible solutions: Get the player position vector and the mouse position vector and find the vector between them
-
-
 	//Practical Task - Physics Alternatives
 	const float DRAG_MULT = 10.0f;
 	const float JOYSTICK_DRAG = 5.0f;
 	const PhysicsType physics = PhysicsType::BACKWARDS_EULER;
+
+	if (sf::Joystick::isButtonPressed(0, 0))
+	{
+		playerLevel->FireGrenade(GetPosition() + velocity * frameTime.asSeconds(), sf::Vector2f(velocity.x, velocity.y), 1); //Position, velocity, owner
+	}
 
 	switch (physics)
 	{
@@ -76,6 +80,8 @@ void Player::Update(sf::Time frameTime)
 
 		//Update acceleration
 		PlayerMovement();
+
+		
 
 		velocity += acceleration * frameTime.asSeconds();
 
@@ -120,6 +126,12 @@ void Player::Update(sf::Time frameTime)
 	}
 	break;
 	}
+
+	//if (sf::Joystick::isButtonPressed(0, 0))
+	//{
+		//playerLevel->FireGrenade(, , 1); //Position, velocity, owner
+	//}
+
 }
 
 void Player::Draw(sf::RenderTarget& target)
@@ -138,19 +150,19 @@ void Player::HandleCollision(OnScreenActor& other)
 	//Practical Task - Physics Alternatives
 	sf::Vector2f depth = CalculateCollisionDepth(other);
 	sf::Vector2f newPosition = GetPosition();
-	const float JUMPSPEED = 0; //No jump required right now
+	//const float JUMPSPEED = 0; //No jump required right now
 
 	if (abs(depth.x) < abs(depth.y))
 	{
 		//Move in x direction
-		newPosition.x += depth.x;
+		newPosition.x += depth.x*2.0f;
 		velocity.x = 0;
 		acceleration.x = 0;
 	}
 	else
 	{
 		//Move in y direction
-		newPosition.y += depth.y;
+		newPosition.y += depth.y*2.0f;
 		velocity.y = 0;
 		acceleration.y = 0;
 
@@ -158,7 +170,7 @@ void Player::HandleCollision(OnScreenActor& other)
 		if (depth.y < 0)
 		{
 			
-			velocity.y = -JUMPSPEED;
+			//velocity.y = -JUMPSPEED;
 		}
 	}
 
@@ -170,54 +182,42 @@ void Player::PlayerMovement()
 	//Practical Task - Physics Alternatives
 	const float ACCEL = 5000.0f;
 	const float JOYSTICK_FACTOR = 0.1f;
-	
+	const float DEADZONE = 10.0f;
 
 
 	acceleration.x = 0;
 	acceleration.y = gravity;
-	if (playerIDint == 1)
+
+	if (sf::Joystick::isConnected(playerIDint-1))
 	{
-		if (sf::Joystick::isConnected(0))
-		{
-			acceleration.x = sf::Joystick::getAxisPosition(0, sf::Joystick::X)*ACCEL*JOYSTICK_FACTOR;
+		float joystickX = sf::Joystick::getAxisPosition(playerIDint-1, sf::Joystick::X);
+		float joystickU = sf::Joystick::getAxisPosition(playerIDint - 1, sf::Joystick::U);
+		float joystickV = sf::Joystick::getAxisPosition(playerIDint - 1, sf::Joystick::V);
 
-			fireVelocity.x = sf::Joystick::getAxisPosition(0, sf::Joystick::U)/ JOYSTICK_FACTOR;
-			fireVelocity.y = sf::Joystick::getAxisPosition(0, sf::Joystick::V) / JOYSTICK_FACTOR;
+		if (joystickX > DEADZONE || joystickX< -DEADZONE)
+		{
+			acceleration.x = joystickX * ACCEL * JOYSTICK_FACTOR;
+
 		}
-		else if (!sf::Joystick::isConnected(0))
+		if (joystickU > DEADZONE || joystickU < -DEADZONE)
 		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			{
-				acceleration.x = -ACCEL;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			{
-				acceleration.x = ACCEL;
-
-			}
+			fireVelocity.x = joystickU / JOYSTICK_FACTOR;
+		}
+		if (joystickV > DEADZONE || joystickV < -DEADZONE)
+		{
+			fireVelocity.y = joystickV / JOYSTICK_FACTOR;
 		}
 	}
-
-	if (playerIDint == 2)
+	else if (!sf::Joystick::isConnected(playerIDint - 1))
 	{
-		if (sf::Joystick::isConnected(1))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			acceleration.x = sf::Joystick::getAxisPosition(1, sf::Joystick::X) * ACCEL * JOYSTICK_FACTOR;
-
-			fireVelocity.x = sf::Joystick::getAxisPosition(1, sf::Joystick::U) / JOYSTICK_FACTOR;
-			fireVelocity.y = sf::Joystick::getAxisPosition(1, sf::Joystick::V) / JOYSTICK_FACTOR;
+			acceleration.x = -ACCEL;
 		}
-		else if (!sf::Joystick::isConnected(1))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			{
-				acceleration.x = -ACCEL;
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			{
-				acceleration.x = ACCEL;
+			acceleration.x = ACCEL;
 
-			}
 		}
 	}
 

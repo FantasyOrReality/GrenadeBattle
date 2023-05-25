@@ -15,6 +15,7 @@
 class Game;
 class Platform;
 class Player;
+class Grenade;
 
 class LevelScreen :
     public Screen
@@ -25,16 +26,25 @@ public:
     void Update(sf::Time frameTime) override;
     void Draw(sf::RenderTarget& target) override;
 
+    void FireGrenade(sf::Vector2f firePosition, sf::Vector2f fireVelocity, int grenadeOwner);
 
-private:
+
     std::string levelIDstr;
     int levelIDint;
 
+protected:
+    
+
+private:
+    
+
     Player* player1;
     Player* player2;
+
     bool gameRunning;
 
     std::vector<Platform*> platformTiles;
+    std::vector<Grenade*> grenadeVector;
 
     sf::Font gameFont;
     sf::Text scoreDisplay;

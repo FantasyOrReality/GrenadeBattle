@@ -4,10 +4,12 @@
 
 //Classes
 #include "LevelScreen.h"
+#include "Screen.h"
 #include "AssetManager.h"
 #include "Platform.h"
 #include "Game.h"
 #include "Player.h"
+#include "Grenade.h"
 
 
 
@@ -20,15 +22,16 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 	, player2(nullptr)
 	, gameRunning(true)
 	, platformTiles()
+	, grenadeVector()
 	, gameFont()
 	, scoreDisplay()
 	, scoreValue(0)
 	, cameraView()
 	, gameMusic()
-	, currentLevel(1)
+	, currentLevel()
 {
-	player1 = new Player("1", 1);
-	player2 = new Player("2", 2);
+	player1 = new Player("1", 1, this);
+	player2 = new Player("2", 2, this);
 
 	player1->SetPlayerID("1"); //set the player ID to use when setting textures
 	player2->SetPlayerID("2"); //set the player ID to use when setting textures
@@ -58,37 +61,13 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 		x = x + j;
 
 	}
-	/*
-	platformTiles.push_back(new Platform(sf::Vector2f(300.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(320.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(340.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(360.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(380.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(400.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(420.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(440.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(460.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(480.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(500.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(520.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(540.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(560.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(580.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(600.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(620.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(640.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(660.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(680.0f, 900.0f)));
-	platformTiles.push_back(new Platform(sf::Vector2f(700.0f, 900.0f)));
-	*/
-
-
 }
 
 void LevelScreen::Update(sf::Time frameTime)
 {
 	if (gameRunning)
 	{
+		//Updates
 		player1->Update(frameTime);
 		player2->Update(frameTime);
 
@@ -96,10 +75,13 @@ void LevelScreen::Update(sf::Time frameTime)
 		{
 			platformTiles[i]->Update(frameTime);
 		}
+		
+		for (int g = 0; g < grenadeVector.size(); g++)
+		{
+			grenadeVector[g]->Update(frameTime);
+		}
 
-		//door.Update(frameTime);
-
-
+		//Collisions
 		player1->SetColliding(false);
 		player2->SetColliding(false);
 
@@ -107,6 +89,12 @@ void LevelScreen::Update(sf::Time frameTime)
 		{
 			platformTiles[i]->SetColliding(false);
 		}
+		
+		for (int g = 0; g < grenadeVector.size(); g++)
+		{
+			grenadeVector[g]->SetColliding(false);
+		}
+		
 
 		//door.SetColliding(false);
 
@@ -131,8 +119,49 @@ void LevelScreen::Update(sf::Time frameTime)
 
 
 			}
-		}
 
+			
+			for (int g = 0; g < grenadeVector.size(); g++)
+			{
+				
+				if (platformTiles[i]->CheckCollision(*grenadeVector[g]))
+				{
+					/*
+					platformTiles[i]->SetColliding(true);
+					grenadeVector[g]->SetColliding(true);
+					platformTiles[i]->HandleCollision(*grenadeVector[g]);
+					grenadeVector[g]->HandleCollision(*platformTiles[i]);
+					*/
+				}
+				
+			}
+			
+			
+		}
+		/*
+		for (int g = 0; g < grenadeVector.size(); g++)
+		{
+			if (grenadeVector[g]->CheckCollision(*player1))
+			{
+				player1->SetColliding(true);
+				grenadeVector[g]->SetColliding(true);
+				grenadeVector[g]->HandleCollision(*player1);
+				player1->HandleCollision(*grenadeVector[g]);
+
+
+			}
+
+			if (grenadeVector[g]->CheckCollision(*player2))
+			{
+				player2->SetColliding(true);
+				grenadeVector[g]->SetColliding(true);
+				grenadeVector[g]->HandleCollision(*player2);
+				player2->HandleCollision(*grenadeVector[g]);
+			}
+		}
+		*/
+
+		/*
 		if (player1->CheckCollision(*player2) && player2->CheckCollision(*player1))
 		{
 			player1->SetColliding(true);
@@ -140,14 +169,7 @@ void LevelScreen::Update(sf::Time frameTime)
 			player1->HandleCollision(*player2);
 			player2->HandleCollision(*player1);
 		}
-
-
-		//if (player.CheckCollision(door))
-		//{
-			//player.SetColliding(true);
-			//door.SetColliding(true);
-			//door.HandleCollision(player);
-		//}
+		*/
 	}
 	else
 	{
@@ -176,6 +198,13 @@ void LevelScreen::Draw(sf::RenderTarget& target)
 		platformTiles[i]->Draw(target);
 	}
 
+	
+	for (int g = 0; g < grenadeVector.size(); ++g)
+	{
+		grenadeVector[g]->Draw(target);
+	}
+	
+
 	player1->Draw(target); //draw players last
 	player2->Draw(target);
 
@@ -183,5 +212,11 @@ void LevelScreen::Draw(sf::RenderTarget& target)
 	//target.setView(target.getDefaultView());
 
 	//Next TODO: Draw UI
+
+}
+
+void LevelScreen::FireGrenade(sf::Vector2f firePosition, sf::Vector2f fireVelocity, int grenadeOwner)
+{
+	grenadeVector.push_back(new Grenade(firePosition, fireVelocity, grenadeOwner));
 
 }

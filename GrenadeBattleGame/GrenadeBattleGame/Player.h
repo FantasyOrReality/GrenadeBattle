@@ -6,14 +6,14 @@
 #include "OnScreenActor.h"
 
 //Forward declarations
-//class Grenade;
+class Grenade;
 class LevelScreen;
 
 class Player :
     public OnScreenActor
 {
 public:
-    Player(std::string newPlayerIDstr, int newPlayerIDint);
+    Player(std::string newPlayerIDstr, int newPlayerIDint, LevelScreen* newCurrentLevel);
 
     void Update(sf::Time frameTime) override;
     void Draw(sf::RenderTarget& target) override;
@@ -22,6 +22,9 @@ public:
 
     void SetPlayerID(std::string newPlayerIDstr);
     void SetPlayerID(int newPlayerIDint);
+
+    LevelScreen* playerLevel;
+
 
 private:
     void PlayerMovement();
@@ -41,13 +44,12 @@ private:
     sf::Sound playerDeathSound;
     std::string playerIDstr;
     int playerIDint;
-    LevelScreen* playerLevel;
     bool isGrounded;
     bool isAlive;
     sf::Vector2f hitboxOffset;
     sf::Vector2f hitboxScale;
     sf::Vector2f aimTarget;
-    //Grenade* playerGrenade;
+    Grenade* playerGrenade;
     std::vector<sf::Sprite> pips;
 
     sf::Vector2f fireVelocity;

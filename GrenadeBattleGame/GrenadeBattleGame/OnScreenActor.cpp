@@ -33,9 +33,10 @@ void OnScreenActor::Draw(sf::RenderTarget& target)
 	//Practical Task - Collision Geometry
 
 	target.draw(sprite);
-
+	
 	bool drawCollider = true;
 
+	/*
 	if (drawCollider)
 	{
 		switch (collisionType)
@@ -90,14 +91,9 @@ void OnScreenActor::Draw(sf::RenderTarget& target)
 		default:
 			break;
 		}
-
-
-
-
-
 	}
-
-
+	*/
+	
 }
 
 sf::Vector2f OnScreenActor::GetPosition()
@@ -125,6 +121,9 @@ bool OnScreenActor::CheckCollision(OnScreenActor other)
 
 	//Practical Task - Collision Geometry
 
+	return GetAABB().intersects(other.GetAABB());
+
+	/*
 	switch (collisionType)
 	{
 	case CollisionType::AABB:
@@ -186,7 +185,7 @@ bool OnScreenActor::CheckCollision(OnScreenActor other)
 	}
 	break;
 	}
-
+	*/
 
 
 }
