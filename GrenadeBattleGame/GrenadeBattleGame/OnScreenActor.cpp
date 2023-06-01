@@ -13,7 +13,6 @@ OnScreenActor::OnScreenActor()
 	, collisionScale()
 	, collisionType(CollisionType::AABB)
 	, alive(true)
-	, gravity(1000.0f)
 {
 	
 }
@@ -36,7 +35,7 @@ void OnScreenActor::Draw(sf::RenderTarget& target)
 	
 	bool drawCollider = true;
 
-	/*
+	
 	if (drawCollider)
 	{
 		switch (collisionType)
@@ -92,7 +91,7 @@ void OnScreenActor::Draw(sf::RenderTarget& target)
 			break;
 		}
 	}
-	*/
+	
 	
 }
 

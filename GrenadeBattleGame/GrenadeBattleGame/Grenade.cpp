@@ -30,37 +30,37 @@ enum class PhysicsType
     , SYMPLECTIC_EULER //Semi-Implicit Euler
 };
 
-Grenade::Grenade(sf::Vector2f position, sf::Vector2f fireVelocity, int owner)
-    : OnScreenActor()
+Grenade::Grenade(sf::Vector2f newPosition, sf::Vector2f newFireVelocity, int owner)
+    : PhysicsObject()
     , grenadeSprite()
-    , velocity()
-    , position()
     , owner()
     , playerPtr(nullptr)
-    , fireCooldown()
 {
     sprite.setTexture(AssetManager::RequestTexture("grenade"));
+
+    SetPosition(newPosition);
 
     collisionType = CollisionType::CIRCLE;
 
     collisionOffset = sf::Vector2f(0.0f, 0.0f);
-    collisionScale = sf::Vector2f(1.0f, 1.0f);
+    collisionScale = sf::Vector2f(0.5f, 0.5f);
 }
 
 void Grenade::Update(sf::Time frameTime)
 {
-    OnScreenActor::Update(frameTime);
+    PhysicsObject::Update(frameTime);
+
+    SetPosition(GetPosition() + velocity * frameTime.asSeconds());
+
+    //Grenade movement
+
 
 }
 
 void Grenade::Draw(sf::RenderTarget& target)
 {
-    OnScreenActor::Draw(target);
+    PhysicsObject::Draw(target);
 
-}
-
-void Grenade::FireGrenade(sf::Vector2f firePosition, sf::Vector2f fireVelocity, Player* newPlayerPtr)
-{
 }
 
 void Grenade::SetOwner(int newOwner)
@@ -68,29 +68,15 @@ void Grenade::SetOwner(int newOwner)
     owner = newOwner;
 }
 
-void Grenade::SetCooldown(sf::Clock newFireCooldown)
-{
-
-    //sf::Time cooldownPeriod = sf::seconds(1.5f);
-    //sf::Clock fireCooldown = (cooldownPeriod.asSeconds(); //The amount of time between firing grenades (so the players don't spam the button)
-
-
-}
-
 void Grenade::SetVelocity(sf::Vector2f newVelocity)
 {
-    velocity = newVelocity;
-
+    fireVelocity = sf::Vector2f(newVelocity);
 }
 
-void Grenade::SetPosition(sf::Vector2f newPosition)
-{
-    position = newPosition;
 
-}
 
-void Grenade::SetPosition(float newX, float newY)
-{
-    position.x = newX;
-    position.y = newY;
-}
+
+
+
+
+

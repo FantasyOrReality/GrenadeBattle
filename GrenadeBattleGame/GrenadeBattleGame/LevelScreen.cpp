@@ -44,18 +44,14 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 
 	platformTiles.push_back(new Platform(sf::Vector2f(300.0f, 900.0f)));
 
-	int x = -25;
+	int x = 0;
 
-	for (int i = 0; i < 90; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		int j = 25;
 
 		platformTiles.push_back(new Platform(sf::Vector2f(x+j, 900.0f)));
-		platformTiles.push_back(new Platform(sf::Vector2f(x + j, 925.0f)));
-		platformTiles.push_back(new Platform(sf::Vector2f(x + j, 950.0f)));
-		platformTiles.push_back(new Platform(sf::Vector2f(x + j, 975.0f)));
-		platformTiles.push_back(new Platform(sf::Vector2f(x + j, 1000.0f)));
-		platformTiles.push_back(new Platform(sf::Vector2f(x + j, 1025.0f)));
+		
 
 
 		x = x + j;

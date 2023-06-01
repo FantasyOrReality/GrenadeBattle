@@ -1,5 +1,5 @@
 #pragma once
-#include "OnScreenActor.h"
+#include "PhysicsObject.h"
 
 /*
 1. Create a Grenade Class
@@ -28,11 +28,11 @@ class LevelScreen;
 class Player;
 
 class Grenade :
-    public OnScreenActor
+    public PhysicsObject
 {
 public:
     //Constructor
-    Grenade(sf::Vector2f position, sf::Vector2f fireVelocity, int owner);
+    Grenade(sf::Vector2f newPosition, sf::Vector2f newFireVelocity, int owner);
 
     //Update function
     void Update(sf::Time frameTime) override;
@@ -40,29 +40,19 @@ public:
     //Draw function
     void Draw(sf::RenderTarget& target) override;
 
-    //Fire the grenade in a position at a velocity
-    void FireGrenade(sf::Vector2f firePosition, sf::Vector2f fireVelocity, Player* newPlayerPtr);
-
     //Public setters
     void SetOwner(int newOwner);
-    void SetCooldown(sf::Clock newFireCooldown);
+    void SetVelocity(sf::Vector2f newVelocity) override;
 
 
 private:
 
-    //Private setters
-    void SetVelocity(sf::Vector2f newVelocity);
-    void SetPosition(sf::Vector2f newPosition) override;
-    void SetPosition(float newX, float newY) override;
 
     //Private data
     sf::Sprite grenadeSprite; //The object used as the sprite
-    sf::Vector2f velocity; //The velocity vector for how fast the grenade travels
-    sf::Vector2f position; //The position vector to know where the grenade is
     int owner; //The number for the player that fired the grenade
     Player* playerPtr; //The player pointer used in the firing function
 
-    sf::Clock fireCooldown; //The amount of time between firing grenades (so the players don't spam the button)
 
 
 

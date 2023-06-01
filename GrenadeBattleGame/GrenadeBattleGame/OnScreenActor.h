@@ -45,8 +45,9 @@ protected:
 
 	CollisionType collisionType;
 
+	sf::Vector2f position;
+
 	bool alive;
-	float gravity;
 
 
 private:
@@ -57,7 +58,6 @@ private:
 	sf::FloatRect GetAABB();
 
 	//Data
-	sf::Vector2f position;
 	bool colliding;
 };
 

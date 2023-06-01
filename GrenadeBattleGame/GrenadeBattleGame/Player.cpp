@@ -5,17 +5,10 @@
 #include "Screen.h"
 #include "Grenade.h"
 
-//Practical Task - Physics Alternatives
-enum class PhysicsType
-{
-		  BACKWARDS_EULER //Implicit Euler
-		, SYMPLECTIC_EULER //Semi-Implicit Euler
-};
+
 Player::Player(std::string newPlayerIDstr, int newPlayerIDint, LevelScreen* newCurrentLevel)
-	: OnScreenActor()
+	: PhysicsObject()
 	, twoFramesOldPos(100, 300)
-	, velocity(0,0)
-	, acceleration(0,0)
 	, playerSprite()
 	, playerJumpSound()
 	, playerDeathSound()
@@ -24,12 +17,12 @@ Player::Player(std::string newPlayerIDstr, int newPlayerIDint, LevelScreen* newC
 	, playerLevel(newCurrentLevel)
 	, isGrounded(true)
 	, isAlive(true)
-	, hitboxOffset(0,0)
-	, hitboxScale(1,1)
 	, aimTarget(0,0)
 	, pips()
 	, playerGrenade(nullptr)
 	, fireVelocity()
+	, fireCooldown(sf::seconds(2.5f))
+	, fireTimer()
 {
 	sprite.setTexture(AssetManager::RequestTexture("player_" + playerIDstr + "_stand"));
 
@@ -51,7 +44,10 @@ Player::Player(std::string newPlayerIDstr, int newPlayerIDint, LevelScreen* newC
 void Player::Update(sf::Time frameTime)
 {
 	//Practical Task - Gravity Prediction
-	OnScreenActor::Update(frameTime);
+	PhysicsObject::Update(frameTime);
+
+	SetPosition(GetPosition() + velocity * frameTime.asSeconds());
+
 
 	float pipTime = 0.0f;
 	float pipTimeStep = 0.1f;
@@ -62,81 +58,24 @@ void Player::Update(sf::Time frameTime)
 		pipTime += pipTimeStep;
 	}
 
-	//Practical Task - Physics Alternatives
-	const float DRAG_MULT = 10.0f;
-	const float JOYSTICK_DRAG = 5.0f;
-	const PhysicsType physics = PhysicsType::BACKWARDS_EULER;
+	//Update acceleration
+	PlayerMovement();
 
-	if (sf::Joystick::isButtonPressed(0, 0))
+	//Fire grenade
+	if (sf::Joystick::isButtonPressed(0, 0) && fireTimer.getElapsedTime() >= fireCooldown)
 	{
-		playerLevel->FireGrenade(GetPosition() + velocity * frameTime.asSeconds(), sf::Vector2f(velocity.x, velocity.y), 1); //Position, velocity, owner
+		FireGrenade(frameTime, 0, sf::Vector2f(2.0f*gravity, 0.1f));
 	}
-
-	switch (physics)
+	if (sf::Joystick::isButtonPressed(1, 0) && fireTimer.getElapsedTime() >= fireCooldown)
 	{
-	case PhysicsType::BACKWARDS_EULER:
-	{
-		//IMPLICIT EULER (BACKWARD EULER) - used for accuracy
-
-		//Update acceleration
-		PlayerMovement();
-
-		
-
-		velocity += acceleration * frameTime.asSeconds();
-
-
-		//drag
-		if (sf::Joystick::isConnected(0) && sf::Joystick::isConnected(1))
-		{
-			velocity.x = velocity.x - velocity.x * DRAG_MULT * JOYSTICK_DRAG* frameTime.asSeconds();
-
-		}
-		else
-		{
-			velocity.x = velocity.x - velocity.x * DRAG_MULT * frameTime.asSeconds();
-
-		}
-
-		SetPosition(GetPosition() + velocity * frameTime.asSeconds());
-
+		FireGrenade(frameTime, 1, sf::Vector2f(2.0f* gravity, 0.1f));
 
 	}
-	break;
-
-	case PhysicsType::SYMPLECTIC_EULER:
-	{
-		//SEMI-IMPLICIT EULER (SYMPLECTIC EULER) - Used for ease of implementation
-		velocity += acceleration * frameTime.asSeconds();
-
-		//drag
-		if (sf::Joystick::isConnected(0) && sf::Joystick::isConnected(1))
-		{
-			velocity.x = velocity.x - velocity.x * DRAG_MULT * JOYSTICK_DRAG * frameTime.asSeconds();
-		}
-		else
-		{
-			velocity.x = velocity.x - velocity.x * DRAG_MULT * frameTime.asSeconds();
-
-		}
-		SetPosition(GetPosition() + velocity * frameTime.asSeconds());
-
-		//Move the player
-		PlayerMovement();
-	}
-	break;
-	}
-
-	//if (sf::Joystick::isButtonPressed(0, 0))
-	//{
-		//playerLevel->FireGrenade(, , 1); //Position, velocity, owner
-	//}
-
 }
 
 void Player::Draw(sf::RenderTarget& target)
 {
-	OnScreenActor::Draw(target);
+	PhysicsObject::Draw(target);
 
 	//Draw pips
 	for (int i = 0; i < pips.size(); ++i)
@@ -179,14 +118,13 @@ void Player::HandleCollision(OnScreenActor& other)
 
 void Player::PlayerMovement()
 {
+
 	//Practical Task - Physics Alternatives
+	PhysicsObject::SetAccelaration();
+
 	const float ACCEL = 5000.0f;
 	const float JOYSTICK_FACTOR = 0.1f;
 	const float DEADZONE = 10.0f;
-
-
-	acceleration.x = 0;
-	acceleration.y = gravity;
 
 	if (sf::Joystick::isConnected(playerIDint-1))
 	{
@@ -238,6 +176,20 @@ sf::Vector2f Player::GetPipPosition(float pipTime)
 		+ GetPosition();
 
 	return pipPosition;
+}
+
+void Player::FireGrenade(sf::Time frameTime, int grenadeOwner, sf::Vector2f fireVelocity)
+{
+		
+	//playerLevel->FireGrenade(GetPosition() + fireVelocity * frameTime.asSeconds(), sf::Vector2f(fireVelocity.x, fireVelocity.y) * frameTime.asSeconds(), grenadeOwner); //Position, velocity, owner
+	
+	
+	playerLevel->FireGrenade(GetPipPosition(0.1f) + velocity * frameTime.asSeconds(), fireVelocity, grenadeOwner); //Position, velocity, owner
+
+	fireTimer.restart();
+	
+	
+	
 }
 
 void Player::SetPlayerID(std::string newPlayerIDstr)
