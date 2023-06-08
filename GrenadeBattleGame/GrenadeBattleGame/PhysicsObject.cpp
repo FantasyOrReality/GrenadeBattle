@@ -40,22 +40,12 @@ void PhysicsObject::Update(sf::Time frameTime)
 			{
 				velocity.x = velocity.x - velocity.x * DRAG_MULT * JOYSTICK_DRAG * frameTime.asSeconds();
 			}
-			else
-			{
-				velocity.x = velocity.x - velocity.x * frameTime.asSeconds();
-
-			}
 		}
 		else
 		{
 			if (applyDrag)
 			{
 				velocity.x = velocity.x - velocity.x * DRAG_MULT * frameTime.asSeconds();
-
-			}
-			else
-			{
-				velocity.x = velocity.x - velocity.x * frameTime.asSeconds();
 
 			}
 		}
@@ -76,11 +66,7 @@ void PhysicsObject::Update(sf::Time frameTime)
 				velocity.x = velocity.x - velocity.x * DRAG_MULT * JOYSTICK_DRAG * frameTime.asSeconds();
 
 			}
-			else
-			{
-				velocity.x = velocity.x - velocity.x * frameTime.asSeconds();
-
-			}
+			
 		}
 		else
 		{
@@ -89,11 +75,7 @@ void PhysicsObject::Update(sf::Time frameTime)
 				velocity.x = velocity.x - velocity.x * DRAG_MULT * frameTime.asSeconds();
 
 			}
-			else
-			{
-				velocity.x = velocity.x - velocity.x * frameTime.asSeconds();
-
-			}
+			
 		}
 		SetAccelaration();
 

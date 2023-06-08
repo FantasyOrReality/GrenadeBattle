@@ -87,17 +87,17 @@ void Grenade::HandleCollision(OnScreenActor& other)
     {
         //Move in x direction
         newPosition.x += depth.x * 2.0f;
-        velocity = VectorHelper::GetReflection(newPosition, VectorHelper::Normalise(VectorHelper::GetNormal(topLeft - bottomLeft)));
+        velocity = VectorHelper::GetReflection(velocity, VectorHelper::Normalise(VectorHelper::GetNormal(topLeft - bottomLeft)));
 
-        acceleration.x = 0;
+       // acceleration.x = 0;
     }
     else
     {
         //Move in y direction
         newPosition.y += depth.y * 2.0f;
-        velocity = VectorHelper::GetReflection(newPosition, VectorHelper::Normalise(VectorHelper::GetNormal(topRight - topLeft)));
+        velocity = VectorHelper::GetReflection(velocity, VectorHelper::Normalise(VectorHelper::GetNormal(topLeft - topRight)));
 
-        acceleration.y = 0;
+        //acceleration.y = 0;
 
         //Collision from above
         if (depth.y < 0)
