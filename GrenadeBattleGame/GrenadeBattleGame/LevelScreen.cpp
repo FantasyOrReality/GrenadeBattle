@@ -134,6 +134,7 @@ void LevelScreen::Update(sf::Time frameTime)
 		/*
 		for (int g = 0; g < grenadeVector.size(); g++)
 		{
+
 			if (grenadeVector[g]->CheckCollision(*player1))
 			{
 				player1->SetColliding(true);
