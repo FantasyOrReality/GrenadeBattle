@@ -11,8 +11,8 @@ PhysicsObject::PhysicsObject()
 	: OnScreenActor()
 	, gravity(1000.0f)
 	, velocity()
-	, fireVelocity()
-	, acceleration()
+	, acceleration(0, 0)
+	, applyDrag(true)
 {
 
 }
@@ -36,12 +36,30 @@ void PhysicsObject::Update(sf::Time frameTime)
 		//drag
 		if (sf::Joystick::isConnected(0) && sf::Joystick::isConnected(1))
 		{
-			velocity.x = velocity.x - velocity.x * DRAG_MULT * JOYSTICK_DRAG * frameTime.asSeconds();
+			if (applyDrag)
+			{
+				velocity.x = velocity.x - velocity.x * DRAG_MULT * JOYSTICK_DRAG * frameTime.asSeconds();
+			}
+			else
+			{
+				velocity.x = velocity.x - velocity.x  * frameTime.asSeconds();
+
+			}
 		}
 		else
 		{
-			velocity.x = velocity.x - velocity.x * DRAG_MULT * frameTime.asSeconds();
+			if (applyDrag)
+			{
+				velocity.x = velocity.x - velocity.x * DRAG_MULT * frameTime.asSeconds();
+
+			}
+			else
+			{
+				velocity.x = velocity.x - velocity.x * frameTime.asSeconds();
+
+			}
 		}
+		SetAccelaration();
 		SetPosition(GetPosition() + velocity * frameTime.asSeconds());
 	}
 	break;
@@ -53,12 +71,31 @@ void PhysicsObject::Update(sf::Time frameTime)
 		//drag
 		if (sf::Joystick::isConnected(0) && sf::Joystick::isConnected(1))
 		{
-			velocity.x = velocity.x - velocity.x * DRAG_MULT * JOYSTICK_DRAG * frameTime.asSeconds();
+			if (applyDrag)
+			{
+				velocity.x = velocity.x - velocity.x * DRAG_MULT * JOYSTICK_DRAG * frameTime.asSeconds();
+
+			}
+			else
+			{
+				velocity.x = velocity.x - velocity.x * frameTime.asSeconds();
+
+			}
 		}
 		else
 		{
-			velocity.x = velocity.x - velocity.x * DRAG_MULT * frameTime.asSeconds();
+			if (applyDrag)
+			{
+				velocity.x = velocity.x - velocity.x * DRAG_MULT * frameTime.asSeconds();
+
+			}
+			else
+			{
+				velocity.x = velocity.x - velocity.x * frameTime.asSeconds();
+
+			}
 		}
+		SetAccelaration();
 
 		//Move the player
 		//PlayerMovement();
@@ -67,23 +104,10 @@ void PhysicsObject::Update(sf::Time frameTime)
 	}
 }
 
-void PhysicsObject::Draw(sf::RenderTarget& target)
-{
-	OnScreenActor::Draw(target);
-}
-
-void PhysicsObject::SetPosition(sf::Vector2f newPosition)
-{
-	OnScreenActor::SetPosition(newPosition);
-}
-
-void PhysicsObject::SetPosition(float newX, float newY)
-{
-	OnScreenActor::SetPosition(newX, newY);
-}
-
 void PhysicsObject::SetVelocity(sf::Vector2f newVelocity)
 {
+	velocity = newVelocity;
+
 }
 
 void PhysicsObject::SetAccelaration()

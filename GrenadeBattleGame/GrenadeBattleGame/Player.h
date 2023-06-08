@@ -27,11 +27,11 @@ public:
 
 
 private:
-    void PlayerMovement();
+    void SetAccelaration() override;
 
     sf::Vector2f GetPipPosition(float pipTime);
 
-    void FireGrenade(sf::Time frameTime, int grenadeOwner, sf::Vector2f fireVelocity);
+    void FireGrenade();
 
     //void AimGrenade(sf::Vector2f newAimTarget);
     //void FireGrenade(sf::Vector2f newAimTarget);

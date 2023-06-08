@@ -32,13 +32,14 @@ enum class PhysicsType
 
 Grenade::Grenade(sf::Vector2f newPosition, sf::Vector2f newFireVelocity, int owner)
     : PhysicsObject()
-    , grenadeSprite()
-    , owner()
-    , playerPtr(nullptr)
+    , owner(owner)
 {
     sprite.setTexture(AssetManager::RequestTexture("grenade"));
 
     SetPosition(newPosition);
+    velocity = newFireVelocity;
+
+    applyDrag = false;
 
     collisionType = CollisionType::CIRCLE;
 
@@ -50,8 +51,9 @@ void Grenade::Update(sf::Time frameTime)
 {
     PhysicsObject::Update(frameTime);
 
-    SetPosition(GetPosition() + velocity * frameTime.asSeconds());
+    //SetPosition(GetPosition() + fireVelocity * frameTime.asSeconds());
 
+    //SetVelocity(fireVelocity);
     //Grenade movement
 
 
@@ -68,10 +70,7 @@ void Grenade::SetOwner(int newOwner)
     owner = newOwner;
 }
 
-void Grenade::SetVelocity(sf::Vector2f newVelocity)
-{
-    fireVelocity = sf::Vector2f(newVelocity);
-}
+
 
 
 

@@ -42,16 +42,12 @@ public:
 
     //Public setters
     void SetOwner(int newOwner);
-    void SetVelocity(sf::Vector2f newVelocity) override;
-
 
 private:
 
 
     //Private data
-    sf::Sprite grenadeSprite; //The object used as the sprite
     int owner; //The number for the player that fired the grenade
-    Player* playerPtr; //The player pointer used in the firing function
 
 
 

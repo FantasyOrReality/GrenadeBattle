@@ -59,16 +59,16 @@ void Player::Update(sf::Time frameTime)
 	}
 
 	//Update acceleration
-	PlayerMovement();
+	//SetAccelaration();
 
 	//Fire grenade
 	if (sf::Joystick::isButtonPressed(0, 0) && fireTimer.getElapsedTime() >= fireCooldown)
 	{
-		FireGrenade(frameTime, 0, sf::Vector2f(2.0f*gravity, 0.1f));
+		FireGrenade();
 	}
 	if (sf::Joystick::isButtonPressed(1, 0) && fireTimer.getElapsedTime() >= fireCooldown)
 	{
-		FireGrenade(frameTime, 1, sf::Vector2f(2.0f* gravity, 0.1f));
+		FireGrenade();
 
 	}
 }
@@ -116,8 +116,9 @@ void Player::HandleCollision(OnScreenActor& other)
 	SetPosition(newPosition);
 }
 
-void Player::PlayerMovement()
+void Player::SetAccelaration()
 {
+
 
 	//Practical Task - Physics Alternatives
 	PhysicsObject::SetAccelaration();
@@ -178,13 +179,13 @@ sf::Vector2f Player::GetPipPosition(float pipTime)
 	return pipPosition;
 }
 
-void Player::FireGrenade(sf::Time frameTime, int grenadeOwner, sf::Vector2f fireVelocity)
+void Player::FireGrenade()
 {
 		
 	//playerLevel->FireGrenade(GetPosition() + fireVelocity * frameTime.asSeconds(), sf::Vector2f(fireVelocity.x, fireVelocity.y) * frameTime.asSeconds(), grenadeOwner); //Position, velocity, owner
 	
 	
-	playerLevel->FireGrenade(GetPipPosition(0.1f) + velocity * frameTime.asSeconds(), fireVelocity, grenadeOwner); //Position, velocity, owner
+	playerLevel->FireGrenade(GetPosition(), fireVelocity, playerIDint); //Position, velocity, owner
 
 	fireTimer.restart();
 	
