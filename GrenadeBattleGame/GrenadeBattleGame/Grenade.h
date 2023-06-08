@@ -26,6 +26,7 @@
 
 class LevelScreen;
 class Player;
+class OnScreenActor;
 
 class Grenade :
     public PhysicsObject
@@ -40,8 +41,13 @@ public:
     //Draw function
     void Draw(sf::RenderTarget& target) override;
 
+    void HandleCollision(OnScreenActor& other) override;
+
+
     //Public setters
     void SetOwner(int newOwner);
+
+
 
 private:
 

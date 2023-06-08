@@ -1,5 +1,7 @@
 #include "Grenade.h"
 #include "AssetManager.h"
+#include "VectorHelper.h"
+#include "OnScreenActor.h"
 
 /*
 1. Create a Grenade Class
@@ -41,7 +43,7 @@ Grenade::Grenade(sf::Vector2f newPosition, sf::Vector2f newFireVelocity, int own
 
     applyDrag = false;
 
-    collisionType = CollisionType::CIRCLE;
+    collisionType = CollisionType::AABB;
 
     collisionOffset = sf::Vector2f(0.0f, 0.0f);
     collisionScale = sf::Vector2f(0.5f, 0.5f);
@@ -68,6 +70,44 @@ void Grenade::Draw(sf::RenderTarget& target)
 void Grenade::SetOwner(int newOwner)
 {
     owner = newOwner;
+}
+
+void Grenade::HandleCollision(OnScreenActor& other)
+{
+    //Practical Task - Physics Alternatives
+    sf::Vector2f depth = CalculateCollisionDepth(other);
+    sf::Vector2f newPosition = GetPosition();
+
+    sf::Vector2f topRight = sf::Vector2f(other.GetAABB().left + other.GetAABB().width, other.GetAABB().top);
+    sf::Vector2f bottomLeft = sf::Vector2f(other.GetAABB().left, other.GetAABB().top+ other.GetAABB().height);
+    sf::Vector2f topLeft = sf::Vector2f(other.GetAABB().left, other.GetAABB().top);
+    //const float JUMPSPEED = 0; //No jump required right now
+
+    if (abs(depth.x) < abs(depth.y))
+    {
+        //Move in x direction
+        newPosition.x += depth.x * 2.0f;
+        velocity = VectorHelper::GetReflection(newPosition, VectorHelper::Normalise(VectorHelper::GetNormal(topLeft - bottomLeft)));
+
+        acceleration.x = 0;
+    }
+    else
+    {
+        //Move in y direction
+        newPosition.y += depth.y * 2.0f;
+        velocity = VectorHelper::GetReflection(newPosition, VectorHelper::Normalise(VectorHelper::GetNormal(topRight - topLeft)));
+
+        acceleration.y = 0;
+
+        //Collision from above
+        if (depth.y < 0)
+        {
+
+            //velocity.y = -JUMPSPEED;
+        }
+    }
+
+    SetPosition(newPosition);
 }
 
 

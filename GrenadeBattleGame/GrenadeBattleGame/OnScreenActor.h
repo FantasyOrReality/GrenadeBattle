@@ -37,7 +37,12 @@ public:
 
 	void SetAlive(bool newAlive);
 
+	sf::FloatRect GetAABB();
+
+
 protected:
+
+
 	sf::Sprite sprite;
 
 	sf::Vector2f collisionOffset;
@@ -50,12 +55,12 @@ protected:
 	bool alive;
 
 
+
 private:
 
 	//Private Getters
 	sf::Vector2f GetCollisionCentre();
 	float GetCircleColliderRadius();
-	sf::FloatRect GetAABB();
 
 	//Data
 	bool colliding;
