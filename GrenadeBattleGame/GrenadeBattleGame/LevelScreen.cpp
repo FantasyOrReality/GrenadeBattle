@@ -52,10 +52,7 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 
 		platformTiles.push_back(new Platform(sf::Vector2f(x+j, 900.0f)));
 		
-
-
 		x = x + j;
-
 	}
 }
 
@@ -122,12 +119,12 @@ void LevelScreen::Update(sf::Time frameTime)
 				
 				if (platformTiles[i]->CheckCollision(*grenadeVector[g]))
 				{
-					/*
+					
 					platformTiles[i]->SetColliding(true);
 					grenadeVector[g]->SetColliding(true);
 					platformTiles[i]->HandleCollision(*grenadeVector[g]);
 					grenadeVector[g]->HandleCollision(*platformTiles[i]);
-					*/
+					
 				}
 				
 			}
@@ -156,6 +153,7 @@ void LevelScreen::Update(sf::Time frameTime)
 			}
 		}
 		*/
+		
 
 		/*
 		if (player1->CheckCollision(*player2) && player2->CheckCollision(*player1))

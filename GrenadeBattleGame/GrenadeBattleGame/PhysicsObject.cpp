@@ -42,7 +42,7 @@ void PhysicsObject::Update(sf::Time frameTime)
 			}
 			else
 			{
-				velocity.x = velocity.x - velocity.x  * frameTime.asSeconds();
+				velocity.x = velocity.x - velocity.x * frameTime.asSeconds();
 
 			}
 		}
