@@ -215,3 +215,19 @@ void LevelScreen::FireGrenade(sf::Vector2f firePosition, sf::Vector2f fireVeloci
 	grenadeVector.push_back(new Grenade(firePosition, fireVelocity, grenadeOwner));
 
 }
+
+void LevelScreen::TriggerEndState(bool win)
+{
+	if (win)
+	{
+		gameRunning = false;
+		endPanel.DecideWin(true);
+		endPanel.StartAnimation();
+	}
+	else
+	{
+		gameRunning = false;
+		endPanel.DecideWin(false);
+		endPanel.StartAnimation();
+	}
+}

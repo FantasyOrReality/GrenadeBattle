@@ -8,8 +8,7 @@
 #include "Screen.h" //Parent class
 //Include all things in the level
 #include "OnScreenActor.h"
-
-//TODO:Include grenade class
+#include "EndPanel.h"
 
 //Forward declarations
 class Game;
@@ -28,6 +27,8 @@ public:
 
     void FireGrenade(sf::Vector2f firePosition, sf::Vector2f fireVelocity, int grenadeOwner);
 
+    void TriggerEndState(bool win);
+
 
     std::string levelIDstr;
     int levelIDint;
@@ -40,6 +41,8 @@ private:
 
     Player* player1;
     Player* player2;
+
+    EndPanel endPanel;
 
     bool gameRunning;
 

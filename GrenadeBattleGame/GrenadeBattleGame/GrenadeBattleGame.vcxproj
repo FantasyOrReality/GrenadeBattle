@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="EasingFunction.cpp" />
+    <ClCompile Include="EndPanel.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Grenade.cpp" />
     <ClCompile Include="LevelScreen.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="EasingFunction.h" />
+    <ClInclude Include="EndPanel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Grenade.h" />
     <ClInclude Include="LevelScreen.h" />
