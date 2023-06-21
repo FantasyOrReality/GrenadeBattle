@@ -47,13 +47,13 @@ public:
     //Public setters
     void SetOwner(int newOwner);
 
+    int owner; //The number for the player that fired the grenade
 
 
 private:
 
 
     //Private data
-    int owner; //The number for the player that fired the grenade
 
 
 

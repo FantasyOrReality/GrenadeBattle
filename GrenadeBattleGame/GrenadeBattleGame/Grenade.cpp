@@ -109,6 +109,8 @@ void Grenade::HandleCollision(OnScreenActor& other)
     }
 
     SetPosition(newPosition);
+
+    
 }
 
 

@@ -113,7 +113,18 @@ void Player::HandleCollision(OnScreenActor& other)
 		}
 	}
 
+
 	SetPosition(newPosition);
+
+
+	OnScreenActor* onScreenActorPtr = &other;
+	
+	Grenade* grenadePtr = dynamic_cast<Grenade*>(onScreenActorPtr);
+
+	if (grenadePtr!= nullptr)
+	{
+		playerLevel->TriggerEndState(true);
+	}
 }
 
 void Player::SetAccelaration()

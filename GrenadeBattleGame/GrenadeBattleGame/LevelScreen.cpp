@@ -20,6 +20,7 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 	, levelIDint()
 	, player1(nullptr)
 	, player2(nullptr)
+	, endPanel(newGamePtr->GetWindow())
 	, gameRunning(true)
 	, platformTiles()
 	, grenadeVector()
@@ -32,6 +33,7 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 {
 	player1 = new Player("1", 1, this);
 	player2 = new Player("2", 2, this);
+	//endPanel = new EndPanel(this, sf::Vec);
 
 	player1->SetPlayerID("1"); //set the player ID to use when setting textures
 	player2->SetPlayerID("2"); //set the player ID to use when setting textures
@@ -131,29 +133,42 @@ void LevelScreen::Update(sf::Time frameTime)
 			
 			
 		}
-		/*
+		
 		for (int g = 0; g < grenadeVector.size(); g++)
 		{
 
 			if (grenadeVector[g]->CheckCollision(*player1))
 			{
-				player1->SetColliding(true);
-				grenadeVector[g]->SetColliding(true);
-				grenadeVector[g]->HandleCollision(*player1);
-				player1->HandleCollision(*grenadeVector[g]);
+				if (grenadeVector[g]->owner == 1)
+				{
 
-
+				}
+				else if (grenadeVector[g]->owner == 2)
+				{
+					player1->SetColliding(true);
+					grenadeVector[g]->SetColliding(true);
+					//grenadeVector[g]->HandleCollision(*player1);
+					player1->HandleCollision(*grenadeVector[g]);
+				}
 			}
 
 			if (grenadeVector[g]->CheckCollision(*player2))
 			{
-				player2->SetColliding(true);
-				grenadeVector[g]->SetColliding(true);
-				grenadeVector[g]->HandleCollision(*player2);
-				player2->HandleCollision(*grenadeVector[g]);
+				if (grenadeVector[g]->owner == 1)
+				{
+					player2->SetColliding(true);
+					grenadeVector[g]->SetColliding(true);
+					//grenadeVector[g]->HandleCollision(*player2);
+					player2->HandleCollision(*grenadeVector[g]);
+				}
+				else if (grenadeVector[g]->owner == 2)
+				{
+
+				}
+				
 			}
 		}
-		*/
+		
 		
 
 		/*
@@ -202,6 +217,12 @@ void LevelScreen::Draw(sf::RenderTarget& target)
 
 	player1->Draw(target); //draw players last
 	player2->Draw(target);
+
+	//Draw UI elements
+	if (!gameRunning)
+	{
+		endPanel.Draw(target);
+	}
 
 	//Reset camera
 	//target.setView(target.getDefaultView());

@@ -3,8 +3,9 @@
 
 //Initialize static data
 std::map < std::string, sf::Texture> AssetManager::textures;
-std::map <std::string, sf::SoundBuffer> soundBuffers;
-std::map <std::string, sf::Font> fonts;
+std::map <std::string, sf::SoundBuffer> AssetManager::soundBuffers;
+std::map <std::string, sf::Font> AssetManager::fonts;
+
 
 
 sf::Texture& AssetManager::RequestTexture(std::string textureName)

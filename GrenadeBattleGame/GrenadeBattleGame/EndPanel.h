@@ -11,7 +11,7 @@ class EndPanel :
 {
 
 public:
-	EndPanel(sf::RenderWindow* newWindow, sf::Vector2f newPosition);
+	EndPanel(sf::RenderWindow* newWindow);
 
     void Update(sf::Time frameTime) override;
 	void Draw(sf::RenderTarget& target) override;
@@ -24,7 +24,9 @@ public:
 	void DecideWin(bool win);
 
 
+	
 private:
+	sf::Sprite background;
 	sf::Text title;
 	sf::Text message;
 	sf::RenderWindow* window;
