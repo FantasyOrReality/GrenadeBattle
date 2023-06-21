@@ -72,6 +72,7 @@ sf::Vector3f VectorHelper::Cross(sf::Vector3f a, sf::Vector3f b)
 	//return c;
 //}
 
+//Practical Task - Reflection
 sf::Vector3f VectorHelper::GetReflection(sf::Vector3f incident, sf::Vector3f normal)
 {
 	//Reflection
