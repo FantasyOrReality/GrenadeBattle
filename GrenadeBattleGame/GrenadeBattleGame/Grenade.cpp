@@ -78,6 +78,7 @@ void Grenade::HandleCollision(OnScreenActor& other)
     sf::Vector2f depth = CalculateCollisionDepth(other);
     sf::Vector2f newPosition = GetPosition();
 
+    //Practical Task - Reflection
     sf::Vector2f topRight = sf::Vector2f(other.GetAABB().left + other.GetAABB().width, other.GetAABB().top);
     sf::Vector2f bottomLeft = sf::Vector2f(other.GetAABB().left, other.GetAABB().top+ other.GetAABB().height);
     sf::Vector2f topLeft = sf::Vector2f(other.GetAABB().left, other.GetAABB().top);
