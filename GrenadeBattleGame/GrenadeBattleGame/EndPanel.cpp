@@ -14,7 +14,7 @@ EndPanel::EndPanel(sf::RenderWindow* newWindow)
 {
 
 	background.setTexture(AssetManager::RequestTexture("panel_blue"));
-	background.setScale(1.0f, 1.0f);
+	background.setScale(6.0f, 6.0f);
 
 	//collisionOffset = sf::Vector2f(0.0f, 0.0f);
 	//collisionScale = sf::Vector2f(1.0f, 1.0f);

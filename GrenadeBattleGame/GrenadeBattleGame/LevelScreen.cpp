@@ -183,7 +183,7 @@ void LevelScreen::Update(sf::Time frameTime)
 	}
 	else
 	{
-		//endPanel.Update(frameTime);
+		endPanel.Update(frameTime);
 
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 		//{
