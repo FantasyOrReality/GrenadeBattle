@@ -43,18 +43,19 @@ public:
 
     void HandleCollision(OnScreenActor& other) override;
 
+    
 
     //Public setters
     void SetOwner(int newOwner);
+    void SetAlive(bool newIsAlive);
 
     int owner; //The number for the player that fired the grenade
+    bool isAlive;
 
+    LevelScreen* grenadeLevel;
 
 private:
-
-
     //Private data
-
 
 
 

@@ -23,6 +23,9 @@ public:
     void SetPlayerID(std::string newPlayerIDstr);
     void SetPlayerID(int newPlayerIDint);
 
+    int takep1Lives(int lifeTake1);
+    int takep2Lives(int lifeTake2);
+
     LevelScreen* playerLevel;
 
 
@@ -54,7 +57,9 @@ private:
     sf::Time fireCooldown;
     sf::Clock fireTimer;
 
-
+    int playerLives;
+    int player1Lives;
+    int player2Lives;
     
 };
 

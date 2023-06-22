@@ -21,7 +21,7 @@ public:
 	void StartAnimation();
 	void ResetPosition();
 
-	void DecideWin(bool win);
+	void DecideWin(bool newPlayer1win, bool newPlayer2win);
 
 
 	
@@ -34,6 +34,7 @@ private:
 	bool animatingIn;
 	sf::Clock animationClock;
 
-	bool win;
+	bool player1win;
+	bool player2win;
 };
 

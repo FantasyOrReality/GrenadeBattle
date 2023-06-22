@@ -10,7 +10,8 @@ EndPanel::EndPanel(sf::RenderWindow* newWindow)
 	, window(newWindow)
 	, animatingIn(false)
 	, animationClock()
-	, win()
+	, player1win()
+	, player2win()
 {
 
 	background.setTexture(AssetManager::RequestTexture("panel_blue"));
@@ -22,7 +23,7 @@ EndPanel::EndPanel(sf::RenderWindow* newWindow)
 
 	title.setFont(AssetManager::RequestFont("dogica"));
 	title.setCharacterSize(70);
-	DecideWin(win);
+	DecideWin(player1win, player2win);
 
 	message.setFont(AssetManager::RequestFont("dogica"));
 	message.setCharacterSize(30);
@@ -94,14 +95,14 @@ void EndPanel::ResetPosition()
 	SetPosition(sf::Vector2f(xPos, yPos));
 }
 
-void EndPanel::DecideWin(bool win)
+void EndPanel::DecideWin(bool player1win, bool player2win)
 {
-	if (win)
+	if (player1win)
 	{
-		title.setString("YOU WIN");
+		title.setString("PLAYER 2 WINS");
 	}
-	else if (!win)
+	else if (player2win)
 	{
-		title.setString("YOU LOSE");
+		title.setString("PLAYER 1 WINS");
 	}
 }

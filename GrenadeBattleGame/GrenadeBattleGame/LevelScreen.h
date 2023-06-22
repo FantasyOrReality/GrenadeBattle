@@ -27,8 +27,9 @@ public:
 
     void FireGrenade(sf::Vector2f firePosition, sf::Vector2f fireVelocity, int grenadeOwner);
 
-    void TriggerEndState(bool win);
+    void TriggerEndState(bool player1win, bool player2win);
 
+    bool CheckGrenadeAlive(bool isGrenadeAlive);
 
     std::string levelIDstr;
     int levelIDint;
@@ -45,7 +46,9 @@ private:
     EndPanel endPanel;
 
     bool gameRunning;
-
+    bool grenadeAlive;
+    bool player1Win;
+    bool player2Win;
     std::vector<Platform*> platformTiles;
     std::vector<Grenade*> grenadeVector;
 

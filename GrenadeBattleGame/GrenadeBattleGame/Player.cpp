@@ -23,6 +23,9 @@ Player::Player(std::string newPlayerIDstr, int newPlayerIDint, LevelScreen* newC
 	, fireVelocity()
 	, fireCooldown(sf::seconds(2.5f))
 	, fireTimer()
+	, playerLives(3)
+	, player1Lives(3)
+	, player2Lives(3)
 {
 	sprite.setTexture(AssetManager::RequestTexture("player_" + playerIDstr + "_stand"));
 
@@ -150,14 +153,32 @@ void Player::HandleCollision(OnScreenActor& other)
 
 	if (grenadePtr!= nullptr)
 	{
-		playerLevel->TriggerEndState(true);
+		if (playerIDint == 1)
+		{
+			player1Lives = takep1Lives(1);
+
+		}
+
+		if (playerIDint == 2)
+		{
+			player2Lives = takep2Lives(1);
+		}
+		//playerLevel->DestroyGrenade(playerGrenade)
+		if (player1Lives <= 0)
+		{
+			playerLevel->TriggerEndState(true, false);
+
+		}
+		if (player2Lives <= 0)
+		{
+			playerLevel->TriggerEndState(false, true);
+
+		}
 	}
 }
 
 void Player::SetAccelaration()
 {
-
-
 	//Practical Task - Physics Alternatives
 	PhysicsObject::SetAccelaration();
 
@@ -243,4 +264,15 @@ void Player::SetPlayerID(int newPlayerIDint)
 	playerIDint = newPlayerIDint;
 }
 
+int Player::takep1Lives(int lifeTake1)
+{
+	player1Lives = player1Lives - lifeTake1;
+	return player1Lives;
+}
+
+int Player::takep2Lives(int lifeTake2)
+{
+	player2Lives = player2Lives - lifeTake2;
+	return player2Lives;
+}
 

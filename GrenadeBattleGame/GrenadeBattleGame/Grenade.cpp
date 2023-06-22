@@ -35,6 +35,7 @@ enum class PhysicsType
 Grenade::Grenade(sf::Vector2f newPosition, sf::Vector2f newFireVelocity, int owner)
     : PhysicsObject()
     , owner(owner)
+    , isAlive(true)
 {
     sprite.setTexture(AssetManager::RequestTexture("grenade"));
 
@@ -57,8 +58,6 @@ void Grenade::Update(sf::Time frameTime)
 
     //SetVelocity(fireVelocity);
     //Grenade movement
-
-
 }
 
 void Grenade::Draw(sf::RenderTarget& target)
@@ -70,6 +69,12 @@ void Grenade::Draw(sf::RenderTarget& target)
 void Grenade::SetOwner(int newOwner)
 {
     owner = newOwner;
+}
+
+void Grenade::SetAlive(bool newIsAlive)
+{
+    isAlive = newIsAlive;
+    
 }
 
 void Grenade::HandleCollision(OnScreenActor& other)
@@ -112,6 +117,8 @@ void Grenade::HandleCollision(OnScreenActor& other)
 
     
 }
+
+
 
 
 

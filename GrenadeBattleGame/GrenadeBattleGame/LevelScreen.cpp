@@ -22,6 +22,9 @@ LevelScreen::LevelScreen(Game* newGamePtr)
 	, player2(nullptr)
 	, endPanel(newGamePtr->GetWindow())
 	, gameRunning(true)
+	, grenadeAlive()
+	, player1Win(false)
+	, player2Win(false)
 	, platformTiles()
 	, grenadeVector()
 	, gameFont()
@@ -149,6 +152,8 @@ void LevelScreen::Update(sf::Time frameTime)
 					grenadeVector[g]->SetColliding(true);
 					//grenadeVector[g]->HandleCollision(*player1);
 					player1->HandleCollision(*grenadeVector[g]);
+					grenadeVector[g]->SetAlive(false);
+					grenadeAlive = false;
 				}
 			}
 
@@ -160,6 +165,8 @@ void LevelScreen::Update(sf::Time frameTime)
 					grenadeVector[g]->SetColliding(true);
 					//grenadeVector[g]->HandleCollision(*player2);
 					player2->HandleCollision(*grenadeVector[g]);
+					grenadeVector[g]->SetAlive(false);
+					grenadeAlive = false;
 				}
 				else if (grenadeVector[g]->owner == 2)
 				{
@@ -189,6 +196,11 @@ void LevelScreen::Update(sf::Time frameTime)
 		//{
 			//Restart();
 		//}
+	}
+	if (!grenadeAlive)
+	{
+		grenadeVector.clear();
+
 	}
 }
 
@@ -233,22 +245,29 @@ void LevelScreen::Draw(sf::RenderTarget& target)
 
 void LevelScreen::FireGrenade(sf::Vector2f firePosition, sf::Vector2f fireVelocity, int grenadeOwner)
 {
+	grenadeAlive = true;
 	grenadeVector.push_back(new Grenade(firePosition, fireVelocity, grenadeOwner));
 
 }
 
-void LevelScreen::TriggerEndState(bool win)
+void LevelScreen::TriggerEndState(bool player1win, bool player2win)
 {
-	if (win)
+	if (player1win)
 	{
 		gameRunning = false;
-		endPanel.DecideWin(true);
+		endPanel.DecideWin(true, false);
 		endPanel.StartAnimation();
 	}
-	else
+	else if (player2win)
 	{
 		gameRunning = false;
-		endPanel.DecideWin(false);
+		endPanel.DecideWin(false, true);
 		endPanel.StartAnimation();
 	}
+}
+
+bool LevelScreen::CheckGrenadeAlive(bool isGrenadeAlive)
+{
+	
+	return false;
 }
