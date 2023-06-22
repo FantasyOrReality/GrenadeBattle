@@ -61,16 +61,27 @@ void Player::Update(sf::Time frameTime)
 	//Update acceleration
 	//SetAccelaration();
 
+	float joystickZ = sf::Joystick::getAxisPosition(playerIDint - 1, sf::Joystick::Z);
+
+
 	//Fire grenade
-	if (sf::Joystick::isButtonPressed(0, 0) && fireTimer.getElapsedTime() >= fireCooldown)
+	if (playerIDint == 1)
 	{
-		FireGrenade();
-	}
-	if (sf::Joystick::isButtonPressed(1, 0) && fireTimer.getElapsedTime() >= fireCooldown)
-	{
-		FireGrenade();
+		if (joystickZ<0 && fireTimer.getElapsedTime() >= fireCooldown)
+		{
+			FireGrenade();
+		}
 
 	}
+	if (playerIDint == 2)
+	{
+		if (joystickZ<0 && fireTimer.getElapsedTime() >= fireCooldown)
+		{
+			FireGrenade();
+		}
+	}
+	
+	
 }
 
 void Player::Draw(sf::RenderTarget& target)
@@ -89,7 +100,7 @@ void Player::HandleCollision(OnScreenActor& other)
 	//Practical Task - Physics Alternatives
 	sf::Vector2f depth = CalculateCollisionDepth(other);
 	sf::Vector2f newPosition = GetPosition();
-	//const float JUMPSPEED = 0; //No jump required right now
+	const float JUMPSPEED = 500;
 
 	if (abs(depth.x) < abs(depth.y))
 	{
@@ -108,8 +119,24 @@ void Player::HandleCollision(OnScreenActor& other)
 		//Collision from above
 		if (depth.y < 0)
 		{
+			if (playerIDint == 1)
+			{
+				if (sf::Joystick::isButtonPressed(0, 0))
+				{
+					velocity.y = -JUMPSPEED;
+
+				}
+
+			}
+			if (playerIDint == 2)
+			{
+				if (sf::Joystick::isButtonPressed(1, 0))
+				{
+					velocity.y = -JUMPSPEED;
+
+				}
+			}
 			
-			//velocity.y = -JUMPSPEED;
 		}
 	}
 
