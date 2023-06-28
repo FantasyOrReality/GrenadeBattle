@@ -49,11 +49,13 @@ public:
     void SetOwner(int newOwner);
     void SetAlive(bool newIsAlive);
 
-    int owner; //The number for the player that fired the grenade
+    //Public getters
+    int GetOwner();
 
 
 private:
     //Private data
+    int owner; //The number for the player that fired the grenade
 
     bool isAlive;
 

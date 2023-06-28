@@ -36,6 +36,7 @@ Grenade::Grenade(sf::Vector2f newPosition, sf::Vector2f newFireVelocity, int own
     : PhysicsObject()
     , owner(owner)
     , isAlive(true)
+    , grenadeLevel()
 {
     sprite.setTexture(AssetManager::RequestTexture("grenade"));
 
@@ -75,6 +76,11 @@ void Grenade::SetAlive(bool newIsAlive)
 {
     isAlive = newIsAlive;
     
+}
+
+int Grenade::GetOwner()
+{
+    return owner;
 }
 
 void Grenade::HandleCollision(OnScreenActor& other)

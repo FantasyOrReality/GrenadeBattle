@@ -142,11 +142,11 @@ void LevelScreen::Update(sf::Time frameTime)
 
 			if (grenadeVector[g]->CheckCollision(*player1))
 			{
-				if (grenadeVector[g]->owner == 1)
+				if (grenadeVector[g]->GetOwner() == 1)
 				{
 
 				}
-				else if (grenadeVector[g]->owner == 2)
+				else if (grenadeVector[g]->GetOwner() == 2)
 				{
 					player1->SetColliding(true);
 					grenadeVector[g]->SetColliding(true);
@@ -159,7 +159,7 @@ void LevelScreen::Update(sf::Time frameTime)
 
 			if (grenadeVector[g]->CheckCollision(*player2))
 			{
-				if (grenadeVector[g]->owner == 1)
+				if (grenadeVector[g]->GetOwner() == 1)
 				{
 					player2->SetColliding(true);
 					grenadeVector[g]->SetColliding(true);
@@ -168,7 +168,7 @@ void LevelScreen::Update(sf::Time frameTime)
 					grenadeVector[g]->SetAlive(false);
 					grenadeAlive = false;
 				}
-				else if (grenadeVector[g]->owner == 2)
+				else if (grenadeVector[g]->GetOwner() == 2)
 				{
 
 				}
