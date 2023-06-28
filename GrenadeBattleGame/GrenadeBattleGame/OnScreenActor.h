@@ -23,21 +23,23 @@ public:
 
 	//Public Getters
 	sf::Vector2f GetPosition();
+	sf::FloatRect GetAABB();
+
 
 	//Public Setters
 	virtual void SetPosition(sf::Vector2f newPosition);
 	virtual void SetPosition(float newX, float newY);
+	void SetAlive(bool newAlive);
+	void SetColliding(bool newColliding);
+
 
 	bool CheckCollision(OnScreenActor other);
-	void SetColliding(bool newColliding);
 
 	sf::Vector2f CalculateCollisionDepth(OnScreenActor other);
 
 	virtual void HandleCollision(OnScreenActor& other);
 
-	void SetAlive(bool newAlive);
 
-	sf::FloatRect GetAABB();
 
 
 protected:
