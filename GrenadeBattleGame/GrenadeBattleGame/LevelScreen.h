@@ -31,8 +31,7 @@ public:
 
     bool CheckGrenadeAlive(bool isGrenadeAlive);
 
-    std::string levelIDstr;
-    int levelIDint;
+    
 
 protected:
     
@@ -61,6 +60,9 @@ private:
     sf::Music gameMusic;
 
     int currentLevel;
+
+    std::string levelIDstr;
+    int levelIDint;
 
 };
 

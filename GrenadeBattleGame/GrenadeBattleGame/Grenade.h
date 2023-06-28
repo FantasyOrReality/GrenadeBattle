@@ -50,14 +50,14 @@ public:
     void SetAlive(bool newIsAlive);
 
     int owner; //The number for the player that fired the grenade
-    bool isAlive;
 
-    LevelScreen* grenadeLevel;
 
 private:
     //Private data
 
+    bool isAlive;
 
+    LevelScreen* grenadeLevel;
 
 };
 

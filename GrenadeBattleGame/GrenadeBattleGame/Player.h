@@ -26,7 +26,6 @@ public:
     int takep1Lives(int lifeTake1);
     int takep2Lives(int lifeTake2);
 
-    LevelScreen* playerLevel;
 
 
 private:
@@ -61,5 +60,7 @@ private:
     int player1Lives;
     int player2Lives;
     
+    LevelScreen* playerLevel;
+
 };
 
